@@ -1,0 +1,161 @@
+name: biblioteca-l6
+
+services:
+  rabbitmq:
+    image: rabbitmq:4.3-management
+    hostname: rabbit1
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD}
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - rabbit-data:/var/lib/rabbitmq
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+      start_period: 10s
+
+  postgres:
+    image: postgres:18
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+      start_period: 10s
+
+  libros:
+    image: biblioteca-servicios:l6
+    build:
+      context: ../L1-gateway
+      dockerfile: Dockerfile.servicios
+    command: ["node", "servicios/libros.mjs"]
+    ports:
+      - "3001:3001"
+    volumes:
+      - biblioteca-data:/app/datos
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://localhost:3001').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+      start_period: 5s
+
+  prestamos:
+    image: biblioteca-servicios:l6
+    build:
+      context: ../L1-gateway
+      dockerfile: Dockerfile.servicios
+    command: ["node", "servicios/prestamos.mjs"]
+    environment:
+      RABBITMQ_URL: amqp://${RABBITMQ_USER}:${RABBITMQ_PASSWORD}@rabbitmq:5672
+      COGNITO_ISSUER: ${COGNITO_ISSUER}
+    ports:
+      - "3002:3002"
+    volumes:
+      - biblioteca-data:/app/datos
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://localhost:3002').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+      start_period: 5s
+
+  eventos:
+    build:
+      context: ../biblioteca-eventos
+    environment:
+      RABBITMQ_URL: amqp://${RABBITMQ_USER}:${RABBITMQ_PASSWORD}@rabbitmq:5672
+    ports:
+      - "3010:3010"
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://localhost:3010/salud').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+      start_period: 5s
+
+  bff:
+    build:
+      context: ../biblioteca-bff
+    environment:
+      COGNITO_ISSUER: ${COGNITO_ISSUER}
+      COGNITO_CLIENT_ID: ${COGNITO_CLIENT_ID}
+      LIBROS_URL: http://libros:3001
+      PRESTAMOS_URL: http://prestamos:3002
+    ports:
+      - "3000:3000"
+    depends_on:
+      libros:
+        condition: service_healthy
+      prestamos:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://localhost:3000/panel').then(()=>process.exit(0)).catch(()=>process.exit(1))"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+      start_period: 5s
+
+  gateway:
+    build:
+      context: ../L1-gateway/gateway
+    environment:
+      COGNITO_ISSUER: ${COGNITO_ISSUER}
+      COGNITO_CLIENT_ID: ${COGNITO_CLIENT_ID}
+      LIBROS_URL: http://libros:3001
+      PRESTAMOS_URL: http://prestamos:3002
+      BFF_URL: http://bff:3000
+    ports:
+      - "8080:8080"
+    depends_on:
+      libros:
+        condition: service_healthy
+      prestamos:
+        condition: service_healthy
+      bff:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://localhost:8080/v1/libros').then(()=>process.exit(0)).catch(()=>process.exit(1))"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+      start_period: 5s
+
+  web:
+    build:
+      context: ../biblioteca-web
+    ports:
+      - "4200:80"
+    depends_on:
+      gateway:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q -O - http://127.0.0.1/ >/dev/null 2>&1 || exit 1"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+      start_period: 5s
+
+volumes:
+  rabbit-data:
+  postgres-data:
+  biblioteca-data:
