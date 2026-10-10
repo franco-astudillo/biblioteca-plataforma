@@ -51,7 +51,7 @@ cliente-1  | 	Is the server running on that host and accepting TCP/IP connection
 Con service_healthy:
 
 ```text
-cliente-1  |     resultado     
+cliente-1  |     resultado
 cliente-1  | ------------------
 cliente-1  |  la base contesto
 cliente-1  | (1 row)
@@ -170,14 +170,14 @@ El exchange direct no encontraría destino para la routing key auditoria y desca
 
 ```text
 Table "public.eventos_auditoria"
-   Column    |           Type           | Collation | Nullable |      Default       
+   Column    |           Type           | Collation | Nullable |      Default
 -------------+--------------------------+-----------+----------+--------------------
  id          | uuid                     |           | not null | uuid_generate_v4()
- routing_key | text                     |           | not null | 
- evento_id   | uuid                     |           | not null | 
- usuario_sub | text                     |           |          | 
- payload     | jsonb                    |           | not null | 
- emitido_en  | timestamp with time zone |           | not null | 
+ routing_key | text                     |           | not null |
+ evento_id   | uuid                     |           | not null |
+ usuario_sub | text                     |           |          |
+ payload     | jsonb                    |           | not null |
+ emitido_en  | timestamp with time zone |           | not null |
  recibido_en | timestamp with time zone |           | not null | now()
 Indexes:
     "PK_634c53aab753f97144ad4bce011" PRIMARY KEY, btree (id)
@@ -195,7 +195,7 @@ eventos-1  | [Nest] 7  - 10/10/2026, 10:11:28 PM    WARN [AuditoriaConsumidor] r
 ### 3 · Conteo del evento repetido
 
 ```text
-count 
+count
 -------
      1
 (1 row)
@@ -387,18 +387,18 @@ eventos-1  | [Nest] 7  - 10/10/2026, 10:13:24 PM   ERROR [CartasMuertasConsumido
 ### 2, 3 y 3b · Eventos, cartas muertas y notificaciones
 
 ```text
-routing_key   | eventos 
+routing_key   | eventos
 -----------------+---------
  prestamo.creado |       3
 (1 row)
 
-  cola_origen   |  motivo  | intentos |         payload          
+  cola_origen   |  motivo  | intentos |         payload
 ----------------+----------+----------+--------------------------
  auditoria      | rejected |        1 | { esto no es JSON valido
  notificaciones | rejected |        1 | { esto no es JSON valido
 (2 rows)
 
- notificaciones 
+ notificaciones
 ----------------
               3
 (1 row)
@@ -420,16 +420,16 @@ La DLQ no tiene otro DLX: descartar sin reencolar perdería el último rastro de
 
 ```text
 Table "prestamos.prestamos"
-   Column    |           Type           | Collation | Nullable |           Default            
+   Column    |           Type           | Collation | Nullable |           Default
 -------------+--------------------------+-----------+----------+------------------------------
  id          | integer                  |           | not null | generated always as identity
- libro_id    | integer                  |           | not null | 
- usuario_sub | text                     |           | not null | 
+ libro_id    | integer                  |           | not null |
+ usuario_sub | text                     |           | not null |
  estado      | text                     |           | not null | 'vigente'::text
- desde       | date                     |           | not null | 
- hasta       | date                     |           | not null | 
+ desde       | date                     |           | not null |
+ hasta       | date                     |           | not null |
  creado_en   | timestamp with time zone |           | not null | now()
- devuelto_en | timestamp with time zone |           |          | 
+ devuelto_en | timestamp with time zone |           |          |
 Indexes:
     "prestamos_pkey" PRIMARY KEY, btree (id)
     "ix_prestamos_usuario_sub" btree (usuario_sub)
@@ -456,7 +456,7 @@ El índice solo limita los préstamos vigentes: después de devolver se puede vo
 El JOIN confirma que el eventoId original se conserva en las notificaciones:
 
 ```text
-evento_id               |              evento_id               | estado  
+evento_id               |              evento_id               | estado
 --------------------------------------+--------------------------------------+---------
  46e22352-7b46-425e-9368-eafe072cd727 | 46e22352-7b46-425e-9368-eafe072cd727 | enviada
  4315f8fb-d8ca-438b-a67c-6a9fdc0edfe2 | 4315f8fb-d8ca-438b-a67c-6a9fdc0edfe2 | enviada

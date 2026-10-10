@@ -1,15 +1,14 @@
                           Table "public.eventos_auditoria"
-   Column    |           Type           | Collation | Nullable |      Default       
+   Column    |           Type           | Collation | Nullable |      Default
 -------------+--------------------------+-----------+----------+--------------------
  id          | uuid                     |           | not null | uuid_generate_v4()
- routing_key | text                     |           | not null | 
- evento_id   | uuid                     |           | not null | 
- usuario_sub | text                     |           |          | 
- payload     | jsonb                    |           | not null | 
- emitido_en  | timestamp with time zone |           | not null | 
+ routing_key | text                     |           | not null |
+ evento_id   | uuid                     |           | not null |
+ usuario_sub | text                     |           |          |
+ payload     | jsonb                    |           | not null |
+ emitido_en  | timestamp with time zone |           | not null |
  recibido_en | timestamp with time zone |           | not null | now()
 Indexes:
     "PK_634c53aab753f97144ad4bce011" PRIMARY KEY, btree (id)
     "ix_eventos_auditoria_routing_recibido" btree (routing_key, recibido_en)
     "uq_eventos_auditoria_evento_id" UNIQUE CONSTRAINT, btree (evento_id)
-

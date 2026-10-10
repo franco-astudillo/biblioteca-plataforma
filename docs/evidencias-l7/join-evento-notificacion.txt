@@ -1,7 +1,6 @@
-              evento_id               |              evento_id               | estado  
+              evento_id               |              evento_id               | estado
 --------------------------------------+--------------------------------------+---------
  46e22352-7b46-425e-9368-eafe072cd727 | 46e22352-7b46-425e-9368-eafe072cd727 | enviada
  4315f8fb-d8ca-438b-a67c-6a9fdc0edfe2 | 4315f8fb-d8ca-438b-a67c-6a9fdc0edfe2 | enviada
  aaefbe4f-ce6c-4f88-87a5-b598f4b7c68f | aaefbe4f-ce6c-4f88-87a5-b598f4b7c68f | enviada
 (3 rows)
-
