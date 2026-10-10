@@ -2,7 +2,7 @@ Respuestas L7
 
 Pruebas ejecutadas el 10 de octubre de 2026. Las salidas se conservan en biblioteca-plataforma/docs/evidencias-l7. Los logs de los contenedores muestran UTC; en Santiago la prueba de las 22:13 UTC fue a las 19:13.
 
-La prueba de Angular requiere completar el inicio de sesión de Cognito. No se presenta como ejecutada mientras no exista un préstamo real registrado.
+La prueba de Angular se pospuso por decisión del usuario. El backend y la cadena de eventos están verificados; la prueba con su sesión de Cognito se realizará después.
 
 Respuesta 1
 
@@ -362,7 +362,7 @@ routing_key   | eventos
 
 4 · Préstamo creado desde Angular
 
-PENDIENTE: completar el inicio de sesión de Cognito y pulsar Pedir el libro 3. Luego ejecutar:
+POSPUESTA POR EL USUARIO: iniciar sesión en Cognito y pulsar Pedir el libro 3 cuando se retome esta comprobación. Luego ejecutar:
 
 docker compose exec postgres psql -U biblioteca -d biblioteca -c "select routing_key, evento_id, payload->>'libroId' as libro, recibido_en from eventos_auditoria where usuario_sub <> 'a4c8e1f2-3b5d-4a7e-9c01-2f6b8d4e5a90' order by recibido_en desc limit 3;"
 
