@@ -1,0 +1,14 @@
+Listing bindings for vhost /...
+source_name	destination_name	routing_key
+	notificaciones.dlq	notificaciones.dlq
+	auditoria	auditoria
+	notificaciones	notificaciones
+	correos.dlq	correos.dlq
+	auditoria.dlq	auditoria.dlq
+	correos	correos
+biblioteca.eventos	notificaciones	prestamo.*
+biblioteca.comandos	correos	correo.enviar
+biblioteca.dlx	auditoria.dlq	auditoria
+biblioteca.dlx	notificaciones.dlq	notificaciones
+biblioteca.dlx	correos.dlq	correos
+biblioteca.eventos	auditoria	#

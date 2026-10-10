@@ -1,0 +1,9 @@
+Timeout: 60.0 seconds ...
+Listing queues for vhost / ...
+name	durable	arguments
+notificaciones.dlq	true	[{"x-queue-type","classic"}]
+auditoria	true	[{"x-dead-letter-exchange","biblioteca.dlx"},{"x-dead-letter-routing-key","auditoria"},{"x-queue-type","classic"}]
+notificaciones	true	[{"x-dead-letter-exchange","biblioteca.dlx"},{"x-dead-letter-routing-key","notificaciones"},{"x-queue-type","classic"}]
+correos.dlq	true	[{"x-queue-type","classic"}]
+auditoria.dlq	true	[{"x-queue-type","classic"}]
+correos	true	[{"x-dead-letter-exchange","biblioteca.dlx"},{"x-dead-letter-routing-key","correos"},{"x-queue-type","classic"}]

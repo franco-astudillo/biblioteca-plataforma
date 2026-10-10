@@ -1,0 +1,9 @@
+Timeout: 60.0 seconds ...
+Listing queues for vhost / ...
+name	messages	messages_ready	messages_unacknowledged
+notificaciones.dlq	0	0	0
+auditoria	5	0	5
+notificaciones	5	5	0
+correos.dlq	0	0	0
+auditoria.dlq	0	0	0
+correos	0	0	0

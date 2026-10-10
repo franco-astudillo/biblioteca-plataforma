@@ -1,0 +1,13 @@
+eventos-1  | [Nest] 7  - 10/10/2026, 10:13:22 PM     LOG [NotificacionesConsumidor] prestamo.creado | aviso para a4c8e1f2-3b5d-4a7e-9c01-2f6b8d4e5a90
+eventos-1  | [Nest] 7  - 10/10/2026, 10:13:22 PM     LOG [AuditoriaConsumidor] guardado prestamo.creado con evento 46e22352-7b46-425e-9368-eafe072cd727
+eventos-1  | [Nest] 7  - 10/10/2026, 10:13:22 PM     LOG [NotificacionesConsumidor] prestamo.creado | aviso para a4c8e1f2-3b5d-4a7e-9c01-2f6b8d4e5a90
+eventos-1  | [Nest] 7  - 10/10/2026, 10:13:22 PM     LOG [CorreosConsumidor] enviando correo a a4c8e1f2-3b5d-4a7e-9c01-2f6b8d4e5a90: "Tu prestamo 1" (origen prestamo.creado)
+eventos-1  | [Nest] 7  - 10/10/2026, 10:13:22 PM     LOG [AuditoriaConsumidor] guardado prestamo.creado con evento 4315f8fb-d8ca-438b-a67c-6a9fdc0edfe2
+eventos-1  | [Nest] 7  - 10/10/2026, 10:13:22 PM     LOG [NotificacionesConsumidor] prestamo.creado | aviso para a4c8e1f2-3b5d-4a7e-9c01-2f6b8d4e5a90
+eventos-1  | [Nest] 7  - 10/10/2026, 10:13:22 PM     LOG [CorreosConsumidor] enviando correo a a4c8e1f2-3b5d-4a7e-9c01-2f6b8d4e5a90: "Tu prestamo 2" (origen prestamo.creado)
+eventos-1  | [Nest] 7  - 10/10/2026, 10:13:22 PM     LOG [AuditoriaConsumidor] guardado prestamo.creado con evento aaefbe4f-ce6c-4f88-87a5-b598f4b7c68f
+eventos-1  | [Nest] 7  - 10/10/2026, 10:13:22 PM     LOG [CorreosConsumidor] enviando correo a a4c8e1f2-3b5d-4a7e-9c01-2f6b8d4e5a90: "Tu prestamo 3" (origen prestamo.creado)
+eventos-1  | [Nest] 7  - 10/10/2026, 10:13:24 PM   ERROR [AuditoriaConsumidor] mensaje invalido, hacia la DLQ: Expected property name or '}' in JSON at position 2 (line 1 column 3)
+eventos-1  | [Nest] 7  - 10/10/2026, 10:13:24 PM   ERROR [NotificacionesConsumidor] rechazado hacia la DLQ: Expected property name or '}' in JSON at position 2 (line 1 column 3)
+eventos-1  | [Nest] 7  - 10/10/2026, 10:13:24 PM   ERROR [CartasMuertasConsumidor] carta muerta en notificaciones.dlq: cola de origen notificaciones, routing key prestamo.creado, motivo rejected, intentos 1
+eventos-1  | [Nest] 7  - 10/10/2026, 10:13:24 PM   ERROR [CartasMuertasConsumidor] carta muerta en auditoria.dlq: cola de origen auditoria, routing key prestamo.creado, motivo rejected, intentos 1

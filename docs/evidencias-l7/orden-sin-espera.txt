@@ -1,0 +1,2 @@
+cliente-1  | psql: error: connection to server at "postgres" (172.22.0.3), port 5432 failed: Connection refused
+cliente-1  | 	Is the server running on that host and accepting TCP/IP connections?

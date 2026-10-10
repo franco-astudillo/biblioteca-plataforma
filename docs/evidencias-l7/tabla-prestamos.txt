@@ -1,0 +1,18 @@
+                                 Table "prestamos.prestamos"
+   Column    |           Type           | Collation | Nullable |           Default            
+-------------+--------------------------+-----------+----------+------------------------------
+ id          | integer                  |           | not null | generated always as identity
+ libro_id    | integer                  |           | not null | 
+ usuario_sub | text                     |           | not null | 
+ estado      | text                     |           | not null | 'vigente'::text
+ desde       | date                     |           | not null | 
+ hasta       | date                     |           | not null | 
+ creado_en   | timestamp with time zone |           | not null | now()
+ devuelto_en | timestamp with time zone |           |          | 
+Indexes:
+    "prestamos_pkey" PRIMARY KEY, btree (id)
+    "ix_prestamos_usuario_sub" btree (usuario_sub)
+    "uq_prestamos_vigente" UNIQUE, btree (usuario_sub, libro_id) WHERE estado = 'vigente'::text
+Check constraints:
+    "ck_prestamos_estado" CHECK (estado = ANY (ARRAY['vigente'::text, 'devuelto'::text]))
+

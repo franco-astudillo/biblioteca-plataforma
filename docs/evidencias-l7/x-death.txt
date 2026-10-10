@@ -1,0 +1,30 @@
+cola: auditoria.dlq
+routing key: auditoria
+payload: { esto no es JSON valido
+headers:
+{
+  "x-death": [
+    {
+      "count": 1,
+      "reason": "rejected",
+      "queue": "auditoria",
+      "time": {
+        "!": "timestamp",
+        "value": 1791670262
+      },
+      "exchange": "biblioteca.eventos",
+      "routing-keys": [
+        "prestamo.creado"
+      ]
+    }
+  ],
+  "x-emitido-en": "2026-10-10T22:11:02.325Z",
+  "x-evento-id": "73a4267f-4e0e-408e-a3ba-2e1634449d4f",
+  "x-first-death-exchange": "biblioteca.eventos",
+  "x-first-death-queue": "auditoria",
+  "x-first-death-reason": "rejected",
+  "x-last-death-exchange": "biblioteca.eventos",
+  "x-last-death-queue": "auditoria",
+  "x-last-death-reason": "rejected"
+}
+mensaje devuelto a auditoria.dlq: sigue ahi

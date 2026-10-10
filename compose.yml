@@ -1,0 +1,135 @@
+name: biblioteca
+
+services:
+  postgres:
+    image: postgres:18
+    container_name: postgres
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "5432:5432"
+    volumes:
+      - datos-postgres:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+  rabbit1:
+    image: rabbitmq:4.3-management
+    container_name: rabbit1
+    hostname: rabbit1
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD}
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - datos-rabbit:/var/lib/rabbitmq
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "check_port_connectivity"]
+      interval: 10s
+      timeout: 10s
+      retries: 10
+      start_period: 60s
+
+  eventos:
+    build: ../biblioteca-eventos
+    init: true
+    env_file: ../biblioteca-eventos/.env
+    environment:
+      RABBITMQ_URL: amqp://${RABBITMQ_USER}:${RABBITMQ_PASSWORD}@rabbit1:5672
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: "5432"
+      CONSUMIR_DLQ: ${CONSUMIR_DLQ:-true}
+    ports:
+      - "3010:3010"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      rabbit1:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://localhost:'+(process.env.PUERTO||3010)+'/salud').then(r=>process.exit(r.ok?0:1),()=>process.exit(1))"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
+
+  libros:
+    image: biblioteca-servicios:l7
+    build:
+      context: ../L1-gateway
+      dockerfile: servicios/Dockerfile
+    init: true
+    command: ["node", "libros.mjs"]
+    ports:
+      - "3001:3001"
+
+  prestamos:
+    image: biblioteca-servicios:l7
+    build:
+      context: ../L1-gateway
+      dockerfile: servicios/Dockerfile
+    init: true
+    command: ["node", "prestamos.mjs"]
+    env_file: ../L1-gateway/servicios/.env
+    environment:
+      RABBITMQ_URL: amqp://${RABBITMQ_USER}:${RABBITMQ_PASSWORD}@rabbit1:5672
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: "5432"
+    ports:
+      - "3002:3002"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      rabbit1:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://localhost:3002/salud').then(r=>process.exit(r.ok?0:1),()=>process.exit(1))"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
+
+  bff:
+    build: ../biblioteca-bff
+    init: true
+    env_file: ../biblioteca-bff/.env
+    environment:
+      LIBROS_URL: http://libros:3001
+      PRESTAMOS_URL: http://prestamos:3002
+    ports:
+      - "3000:3000"
+
+  gateway:
+    build: ../L1-gateway/gateway
+    init: true
+    env_file: ../L1-gateway/gateway/.env
+    environment:
+      LIBROS_URL: http://libros:3001
+      PRESTAMOS_URL: http://prestamos:3002
+      BFF_URL: http://bff:3000
+    ports:
+      - "8080:8080"
+
+  web:
+    build: ../biblioteca-web
+    ports:
+      - "4200:80"
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://127.0.0.1/"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+volumes:
+  datos-postgres:
+    name: datos-postgres
+  datos-rabbit:
+    name: datos-rabbit

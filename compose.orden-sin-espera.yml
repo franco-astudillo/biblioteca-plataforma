@@ -1,0 +1,14 @@
+name: orden-sin-espera
+services:
+  postgres:
+    image: postgres:18
+    environment:
+      POSTGRES_DB: orden
+      POSTGRES_USER: orden
+      POSTGRES_PASSWORD: orden
+    entrypoint: ["sh", "-c", "sleep 3; exec docker-entrypoint.sh postgres"]
+  cliente:
+    image: postgres:18
+    environment:
+      PGPASSWORD: orden
+    command: ["psql", "-h", "postgres", "-U", "orden", "-d", "orden", "-c", "select 'la base contesto' as resultado"]

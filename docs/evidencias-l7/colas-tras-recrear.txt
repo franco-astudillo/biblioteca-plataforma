@@ -1,0 +1,6 @@
+Timeout: 60.0 seconds ...
+Listing queues for vhost / ...
+name	messages
+auditoria	0
+notificaciones	0
+correos	0

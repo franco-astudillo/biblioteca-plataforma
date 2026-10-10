@@ -1,0 +1,30 @@
+                          Table "public.notificaciones"
+  Column   |           Type           | Collation | Nullable |      Default       
+-----------+--------------------------+-----------+----------+--------------------
+ id        | uuid                     |           | not null | uuid_generate_v4()
+ para      | text                     |           | not null | 
+ asunto    | text                     |           | not null | 
+ estado    | text                     |           | not null | 
+ evento_id | uuid                     |           | not null | 
+ creada_en | timestamp with time zone |           | not null | now()
+Indexes:
+    "PK_a9d32a419ff58b53a38b5ef85d4" PRIMARY KEY, btree (id)
+    "ix_notificaciones_evento_id" btree (evento_id)
+Check constraints:
+    "ck_notificaciones_estado" CHECK (estado = ANY (ARRAY['enviada'::text, 'fallida'::text]))
+
+                          Table "public.mensajes_muertos"
+   Column    |           Type           | Collation | Nullable |      Default       
+-------------+--------------------------+-----------+----------+--------------------
+ id          | uuid                     |           | not null | uuid_generate_v4()
+ cola_origen | text                     |           | not null | 
+ routing_key | text                     |           | not null | 
+ motivo      | text                     |           | not null | 
+ intentos    | integer                  |           | not null | 1
+ payload     | text                     |           | not null | 
+ recibido_en | timestamp with time zone |           | not null | now()
+Indexes:
+    "PK_b8d3a2cc376d4ef33d2bbfdb0a8" PRIMARY KEY, btree (id)
+Check constraints:
+    "ck_mensajes_muertos_intentos" CHECK (intentos >= 1)
+

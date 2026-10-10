@@ -1,0 +1,6 @@
+eventos-1  | [Nest] 7  - 10/10/2026, 10:11:27 PM     LOG [NotificacionesConsumidor] prestamo.creado | aviso para a4c8e1f2-3b5d-4a7e-9c01-2f6b8d4e5a90
+eventos-1  | [Nest] 7  - 10/10/2026, 10:11:27 PM     LOG [AuditoriaConsumidor] guardado prestamo.creado con evento 11111111-2222-3333-4444-555555555555
+eventos-1  | [Nest] 7  - 10/10/2026, 10:11:27 PM     LOG [CorreosConsumidor] enviando correo a a4c8e1f2-3b5d-4a7e-9c01-2f6b8d4e5a90: "Tu prestamo 1" (origen prestamo.creado)
+eventos-1  | [Nest] 7  - 10/10/2026, 10:11:28 PM    WARN [AuditoriaConsumidor] reentrega del evento 11111111-2222-3333-4444-555555555555: ya estaba guardado, no se duplica
+eventos-1  | [Nest] 7  - 10/10/2026, 10:11:28 PM     LOG [NotificacionesConsumidor] prestamo.creado | aviso para a4c8e1f2-3b5d-4a7e-9c01-2f6b8d4e5a90
+eventos-1  | [Nest] 7  - 10/10/2026, 10:11:28 PM     LOG [CorreosConsumidor] enviando correo a a4c8e1f2-3b5d-4a7e-9c01-2f6b8d4e5a90: "Tu prestamo 1" (origen prestamo.creado)

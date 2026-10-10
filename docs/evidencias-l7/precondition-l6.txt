@@ -1,0 +1,4 @@
+
+eventos-1  | [Nest] 7  - 10/10/2026, 10:10:02 PM   ERROR [MensajeriaService] canal: Channel closed by server: 406 (PRECONDITION-FAILED) with message "PRECONDITION_FAILED - inequivalent arg 'x-dead-letter-exchange' for queue 'notificaciones' in vhost '/': received the value 'biblioteca.dlx' of type 'longstr' but current is none"
+eventos-1  | Error: Operation failed: QueueDeclare; 406 (PRECONDITION-FAILED) with message "PRECONDITION_FAILED - inequivalent arg 'x-dead-letter-exchange' for queue 'notificaciones' in vhost '/': received the value 'biblioteca.dlx' of type 'longstr' but current is none"
+

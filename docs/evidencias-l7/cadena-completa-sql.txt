@@ -1,0 +1,16 @@
+   routing_key   | eventos 
+-----------------+---------
+ prestamo.creado |       3
+(1 row)
+
+  cola_origen   |  motivo  | intentos |         payload          
+----------------+----------+----------+--------------------------
+ auditoria      | rejected |        1 | { esto no es JSON valido
+ notificaciones | rejected |        1 | { esto no es JSON valido
+(2 rows)
+
+ notificaciones 
+----------------
+              3
+(1 row)
+

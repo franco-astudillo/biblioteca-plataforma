@@ -1,0 +1,9 @@
+NAME                     IMAGE                     COMMAND                  SERVICE     CREATED          STATUS                        PORTS
+biblioteca-bff-1         biblioteca-bff            "docker-entrypoint.s…"   bff         4 minutes ago    Up 4 minutes                  0.0.0.0:3000->3000/tcp, [::]:3000->3000/tcp
+biblioteca-eventos-1     biblioteca-eventos        "docker-entrypoint.s…"   eventos     19 seconds ago   Up 17 seconds (healthy)       0.0.0.0:3010->3010/tcp, [::]:3010->3010/tcp
+biblioteca-gateway-1     biblioteca-gateway        "docker-entrypoint.s…"   gateway     4 minutes ago    Up 4 minutes                  0.0.0.0:8080->8080/tcp, [::]:8080->8080/tcp
+biblioteca-libros-1      biblioteca-servicios:l7   "docker-entrypoint.s…"   libros      4 minutes ago    Up 4 minutes                  0.0.0.0:3001->3001/tcp, [::]:3001->3001/tcp
+biblioteca-prestamos-1   biblioteca-servicios:l7   "docker-entrypoint.s…"   prestamos   51 seconds ago   Up 50 seconds (healthy)       0.0.0.0:3002->3002/tcp, [::]:3002->3002/tcp
+biblioteca-web-1         biblioteca-web            "/docker-entrypoint.…"   web         4 minutes ago    Up 4 minutes (healthy)        0.0.0.0:4200->80/tcp, [::]:4200->80/tcp
+postgres                 postgres:18               "docker-entrypoint.s…"   postgres    5 minutes ago    Up About a minute (healthy)   0.0.0.0:5432->5432/tcp, [::]:5432->5432/tcp
+rabbit1                  rabbitmq:4.3-management   "docker-entrypoint.s…"   rabbit1     4 minutes ago    Up 4 minutes (healthy)        0.0.0.0:5672->5672/tcp, [::]:5672->5672/tcp, 0.0.0.0:15672->15672/tcp, [::]:15672->15672/tcp

@@ -1,0 +1,6 @@
+INSERT 0 1
+ERROR:  duplicate key value violates unique constraint "uq_prestamos_vigente"
+DETAIL:  Key (usuario_sub, libro_id)=(prueba-l7, 1) already exists.
+UPDATE 1
+INSERT 0 1
+DELETE 2

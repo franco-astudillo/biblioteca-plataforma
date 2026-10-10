@@ -1,0 +1,7 @@
+eventos-1  | [Nest] 7  - 10/10/2026, 10:11:36 PM     LOG [NotificacionesConsumidor] prestamo.creado | aviso para a4c8e1f2-3b5d-4a7e-9c01-2f6b8d4e5a90
+eventos-1  | [Nest] 7  - 10/10/2026, 10:11:39 PM    WARN [CorreosConsumidor] intento 1 de 3 al guardar notificacion 34810e07-ef2b-4d01-b577-7fcc7a51b4e1: Connection terminated due to connection timeout
+eventos-1  | [Nest] 7  - 10/10/2026, 10:11:39 PM    WARN [AuditoriaConsumidor] intento 1 de 3 fallido para 34810e07-ef2b-4d01-b577-7fcc7a51b4e1: Connection terminated due to connection timeout
+eventos-1  | [Nest] 7  - 10/10/2026, 10:11:44 PM    WARN [CorreosConsumidor] intento 2 de 3 al guardar notificacion 34810e07-ef2b-4d01-b577-7fcc7a51b4e1: Connection terminated due to connection timeout
+eventos-1  | [Nest] 7  - 10/10/2026, 10:11:44 PM    WARN [AuditoriaConsumidor] intento 2 de 3 fallido para 34810e07-ef2b-4d01-b577-7fcc7a51b4e1: Connection terminated due to connection timeout
+eventos-1  | [Nest] 7  - 10/10/2026, 10:11:51 PM   ERROR [AuditoriaConsumidor] la base no respondio en 3 intentos, hacia la DLQ: Connection terminated due to connection timeout
+eventos-1  | [Nest] 7  - 10/10/2026, 10:11:51 PM   ERROR [CorreosConsumidor] la base no respondio en 3 intentos, hacia la DLQ: Connection terminated due to connection timeout

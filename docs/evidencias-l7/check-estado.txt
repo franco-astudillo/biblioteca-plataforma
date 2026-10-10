@@ -1,0 +1,2 @@
+ERROR:  new row for relation "notificaciones" violates check constraint "ck_notificaciones_estado"
+DETAIL:  Failing row contains (bf01770d-0b63-49a7-a719-d8f93748605f, prueba-l7, prueba, pendiente, 11111111-2222-3333-4444-555555555555, 2026-10-10 22:12:47.268342+00).

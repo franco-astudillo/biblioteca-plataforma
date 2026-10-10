@@ -1,0 +1,5 @@
+cliente-1  |     resultado     
+cliente-1  | ------------------
+cliente-1  |  la base contesto
+cliente-1  | (1 row)
+cliente-1  | 

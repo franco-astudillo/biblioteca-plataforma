@@ -1,0 +1,8 @@
+  cola_origen   |   routing_key   |  motivo  | intentos 
+----------------+-----------------+----------+----------
+ notificaciones | prestamo.creado | rejected |        1
+ correos        | correo.enviar   | rejected |        1
+ auditoria      | prestamo.creado | rejected |        1
+ auditoria      | prestamo.creado | rejected |        1
+(4 rows)
+

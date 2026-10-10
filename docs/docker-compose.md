@@ -1,53 +1,25 @@
 # Ejecución completa con Docker Compose
 
-Este archivo orquesta RabbitMQ, PostgreSQL, los microservicios de libros y préstamos,
-el worker de eventos, el BFF, el gateway y la aplicación Angular.
+Desde biblioteca-plataforma:
+`docker compose up -d --build --wait`.
 
-## Estructura requerida
+El archivo canónico es compose.yml, proyecto biblioteca, con ocho servicios.
+Consulta el README para preparar los .env, ver los puertos y ejecutar los experimentos.
 
-Los cinco repositorios deben estar clonados como carpetas hermanas:
+Los volúmenes datos-rabbit y datos-postgres tienen nombre explícito. El hostname rabbit1
+conserva la identidad Erlang. RabbitMQ usa check_port_connectivity y Postgres pg_isready.
+Worker y préstamos esperan a los dos con condition: service_healthy.
+El healthcheck del worker consulta /salud, que comprueba broker y SELECT 1.
+El healthcheck de préstamos también comprueba la base y su publicador.
+BFF/gateway/libros no abren conexiones a dependencias al arrancar.
 
-```text
-Laboratorio 6/
-├── L1-gateway/
-├── biblioteca-bff/
-├── biblioteca-eventos/
-├── biblioteca-plataforma/
-└── biblioteca-web/
-```
+Después de editar un servicio, reconstruye su imagen:
+`docker compose up -d --build --wait eventos`.
+Para detener conservando datos: `docker compose down`.
 
-## Configuración local
+compose.orden-sin-espera.yml reproduce ECONNREFUSED y compose.orden.yml lo corrige.
+Son proyectos separados, sin los volúmenes persistentes del laboratorio.
 
-Desde `biblioteca-plataforma`, copia `.env.example` como `.env` y completa los
-valores reales de Cognito. El archivo `.env` está ignorado por Git y no debe
-subirse al repositorio.
-
-## Arranque y comprobación
-
-```powershell
-cd "D:\Laboratorio 6\biblioteca-plataforma"
-docker compose config
-docker compose up --build -d
-docker compose ps
-docker compose logs -f eventos
-```
-
-Servicios expuestos:
-
-- Angular: `http://localhost:4200`
-- Gateway: `http://localhost:8080`
-- BFF: `http://localhost:3000`
-- Libros: `http://localhost:3001`
-- Préstamos: `http://localhost:3002`
-- Worker: `http://localhost:3010/salud`
-- RabbitMQ Management: `http://localhost:15672`
-- PostgreSQL: `localhost:5432`
-
-Para detener los contenedores conservando sus volúmenes:
-
-```powershell
-docker compose down
-```
-
-`docker compose down -v` también elimina los datos persistentes y solo debe
-usarse cuando se quiera reiniciar completamente el laboratorio.
+.env y sus variantes están ignorados. .dockerignore impide incluir secretos y
+node_modules de Windows en imágenes Linux. npm ci usa package-lock.json.
+Angular compila con Node 24 y se sirve con nginx:1.29-alpine con fallback a index.html.

@@ -1,0 +1,2 @@
+NAME                   IMAGE                COMMAND                  SERVICE   CREATED              STATUS                          PORTS
+biblioteca-eventos-1   biblioteca-eventos   "docker-entrypoint.s…"   eventos   About a minute ago   Up About a minute (unhealthy)   0.0.0.0:3010->3010/tcp, [::]:3010->3010/tcp
